@@ -8,7 +8,7 @@ on:
 jobs:
   codeql:
     name: Codeql Analysis
-    uses: nasa/cFS/.github/workflows/codeql-reusable.yml@main
+    uses: astrogeco/cFS/.github/workflows/codeql-reusable.yml@integration-candidate
     with: 
       component-path: apps/cs
       prep: 'make prep; make -C build/tools/elf2cfetbl'
