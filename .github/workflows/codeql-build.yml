@@ -4,12 +4,22 @@ on:
   push:
   pull_request:
   
+env: 
+  APP_LOWER: cs
+  APP_UPPER: CS
 
 jobs:
+
   codeql:
     name: Codeql Analysis
-    uses: astrogeco/cFS/.github/workflows/codeql-reusable.yml@integration-candidate
+    uses: astrogeco/cFS/.github/workflows/codeql-reusable.yml@integration-c
     with: 
       component-path: apps/cs
       prep: 'make prep; make -C build/tools/elf2cfetbl'
+      setup: | 
+        sed -i "/list(APPEND MISSION_GLOBAL_APPLIST/a list(APPEND MISSION_GLOBAL_APPLIST $APP_LOWER)" sample_defs/targets.cmake
+        sed -i "1i CFE_APP, $APP_LOWER, ${APP_UPPER}_AppMain, $APP_UPPER, 80, 16384, 0x0, 0;" sample_defs/cpu1_cfe_es_startup.scr
+        cat sample_defs/cpu1_cfe_es_startup.scr
+        cp ./cfe/cmake/Makefile.sample Makefile 
+        cp -r ./cfe/cmake/sample_defs sample_defs
       make: 'make -C build/native/default_cpu1/apps/cs'
