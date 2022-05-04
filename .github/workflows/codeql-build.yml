@@ -11,7 +11,7 @@ jobs:
 
   codeql:
     name: Codeql Analysis
-    uses: astrogeco/cFS/.github/workflows/codeql-reusable.yml@integration-candidate
+    uses: astrogeco/cFS/.github/workflows/codeql-reusable.yml@/update-code-ql
     with: 
       component-path: apps/cs
       prep: 'make prep; make -C build/tools/elf2cfetbl'
