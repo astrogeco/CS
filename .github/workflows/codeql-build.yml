@@ -5,8 +5,7 @@ on:
   pull_request:
   
 env: 
-  APP_LOWER: cs
-  APP_UPPER: CS
+  app-name: cs
 
 jobs:
 
@@ -17,6 +16,8 @@ jobs:
       component-path: apps/cs
       prep: 'make prep; make -C build/tools/elf2cfetbl'
       setup: | 
+        echo "APP_UPPER=$(echo ${{ env.app-name }} | sed 's/[a-z]/\U&/g')" >> $GITHUB_ENV
+        echo "APP_LOWER=$(echo ${{ env.app-name }} | sed 's/[A-Z]/\L&/g')" >> $GITHUB_ENV
         cp ./cfe/cmake/Makefile.sample Makefile 
         cp -r ./cfe/cmake/sample_defs sample_defs
         sed -i "/list(APPEND MISSION_GLOBAL_APPLIST/a list(APPEND MISSION_GLOBAL_APPLIST $APP_LOWER)" sample_defs/targets.cmake
